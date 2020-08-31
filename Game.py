@@ -1,4 +1,6 @@
 from tkinter import *
+from Ball import *
+import time
 
 class Game:
     def __init__(self):
@@ -30,9 +32,22 @@ class Game:
         self.score_label.place(x=120, y=0)
         self.maxScore_label.place(x=120, y=30)
         
+        self.ballList = [Ball(self.canvas)]
+        
+    def move(self):
+        for ball in self.ballList:
+            ball.move()
+            time.sleep()
+        
     def display(self):
         self.maxScore_var.set(f"최고점수: {self.maxScore}")
         self.score_var.set(f"현재점수: {self.score}")
+        
+        self.canvas.delete("ball")
+        
+        for ball in self.ballList:
+            ball.display()
+        
         self.tk.update()
     
     def mainLoop(self):
@@ -42,6 +57,8 @@ class Game:
         
         while True:
             self.display()
+            time.sleep(0.005)
+            
             
 if __name__ == '__main__':
     g = Game()
