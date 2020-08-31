@@ -1,5 +1,6 @@
 from tkinter import *
 from Ball import *
+from Brick import *
 import time
 
 class Game:
@@ -33,6 +34,7 @@ class Game:
         self.maxScore_label.place(x=120, y=30)
         
         self.ballList = [Ball(self.canvas)]
+        self.brickList = [Brick(self.canvas, 0, 0)]
         
     def move(self):
         for ball in self.ballList:
@@ -48,16 +50,24 @@ class Game:
         for ball in self.ballList:
             ball.display()
         
+        for brick in self.brickList:
+            brick.display()
+            
         self.tk.update()
     
     def mainLoop(self):
+        self.brickList.append(Brick(self.canvas, 2, 1))
         
         self.canvas.create_line(0, self.top, self.width, self.top, width=3)
         self.canvas.create_line(0, self.under, self.width, self.under, width=3)
         
+        
         while True:
             self.display()
-            time.sleep(0.005)
+            self.brickList[0].life += 1
+            self.brickList[0].move()
+            self.brickList[1].move()
+            time.sleep(0.7)
             
             
 if __name__ == '__main__':
