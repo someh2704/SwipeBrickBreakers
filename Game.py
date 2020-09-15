@@ -1,7 +1,6 @@
 from tkinter import *
-from Ball import *
-from Brick import *
 import time
+from GameObject import GameObject
 
 class Game:
     def __init__(self):
@@ -33,8 +32,10 @@ class Game:
         self.score_label.place(x=120, y=0)
         self.maxScore_label.place(x=120, y=30)
         
-        self.ballList = [Ball(self.canvas)]
-        self.brickList = [Brick(self.canvas, 0, 0)]
+        self.object = GameObject(self.canvas)
+        
+        self.canvas.create_line(0, self.top, self.width, self.top, width=3)
+        self.canvas.create_line(0, self.under, self.width, self.under, width=3)
         
     def move(self):
         for ball in self.ballList:
@@ -47,27 +48,19 @@ class Game:
         
         self.canvas.delete("ball")
         
-        for ball in self.ballList:
-            ball.display()
-        
-        for brick in self.brickList:
-            brick.display()
-            
+        self.object.display()
         self.tk.update()
     
     def mainLoop(self):
-        self.brickList.append(Brick(self.canvas, 2, 1))
-        
-        self.canvas.create_line(0, self.top, self.width, self.top, width=3)
-        self.canvas.create_line(0, self.under, self.width, self.under, width=3)
-        
-        
+        tick = 0
         while True:
             self.display()
-            self.brickList[0].life += 1
-            self.brickList[0].move()
-            self.brickList[1].move()
-            time.sleep(0.7)
+            self.object.brick_move()
+            self.object.delete()
+            tick += 1
+            if tick % 11 == 0:
+                self.object.create_brick()
+            time.sleep(0.1)
             
             
 if __name__ == '__main__':

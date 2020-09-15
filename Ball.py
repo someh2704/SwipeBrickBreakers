@@ -2,13 +2,13 @@ class Ball:
     delay = 0
     
     def __init__(self, canvas):
-        self.state = "wait"
+        self.state = "move"
         self.speed = 5
         self.size = 20
         self.x = 180
         self.y = 600 - (self.size/2 + 1)
-        self.vx = 0
-        self.vy = 0
+        self.dx = 0
+        self.dy = 0
         
         self.delay = Ball.delay = 0.5 # 비동기적으로 움직일떄 딜레이
         Ball.delay += 0.5
@@ -24,3 +24,4 @@ class Ball:
         
         self.canvas.create_oval(self.x - self.size/2, self.y - self.size/2, self.x + self.size/2, self.y + self.size/2,
                                 fill="yellow", tag="ball")
+    
